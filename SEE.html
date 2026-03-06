@@ -279,7 +279,7 @@ function checkSpeech() {
         const targetWordsShort = normalizedTarget.filter(w => w.length > 2);
         const matchedWords = targetWordsShort.filter(word => input.includes(word));
         const accuracy = targetWordsShort.length > 0 ? (matchedWords.length / targetWordsShort.length) : 1;
-        if (accuracy > 0.40 || input.includes(rawTarget.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_~()]/g,""))) triggerSuccess();
+        if (accuracy > 0.60 || input.includes(rawTarget.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_~()]/g,""))) triggerSuccess();
     }
 }
 
@@ -290,7 +290,7 @@ function triggerSuccess() {
         state.isAnimatingScore = false; 
         state.easyModeIndex = 0;
         handleSuccess(); 
-    }, 1000);
+    }, 3000);
 }
 
 function render() {
@@ -374,9 +374,18 @@ function render() {
                                 </div>
                             </div>
                         ` : `
-                            <div class="flex flex-wrap gap-2.5 justify-start min-h-[120px]">
-                                ${state.shuffledWords.map((word, i) => `<span class="px-4 py-2 bg-white text-slate-800 rounded-xl font-bold border-2 border-slate-100 shadow-sm text-md word-entrance" style="animation-delay: ${i * 0.05}s">${word}</span>`).join('')}
-                            </div>
+                        <div class="min-h-[120px] flex items-center">
+                            ${state.isCorrect ? `
+                                <div class="text-xl font-bold text-slate-800 p-6 bg-green-50 rounded-2xl border-2 border-green-200 w-full animate-in fade-in slide-in-from-bottom-2">
+                                    <div class="text-[10px] uppercase tracking-widest text-green-600 mb-2 font-black">Correct Sentence</div>
+                                    ${rawTarget}
+                                </div>
+                            ` : `
+                                <div class="flex flex-wrap gap-2.5 justify-start">
+                                    ${state.shuffledWords.map((word, i) => `<span class="px-4 py-2 bg-white text-slate-800 rounded-xl font-bold border-2 border-slate-100 shadow-sm text-md word-entrance" style="animation-delay: ${i * 0.05}s">${word}</span>`).join('')}
+                                </div>
+                            `}
+                        </div>
                         `}
                     </div>
                 </div>
