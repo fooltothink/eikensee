@@ -157,6 +157,7 @@ let state = {
     dataArray: null,
     isEasyMode: false,
     easyModeIndex: 0,
+    easyModeSearchCursor: 0,
     isFrogJumping: false,
     lastMatchedCount: 0,
     silenceTimer: null,
@@ -302,22 +303,43 @@ function checkSpeech() {
     const rawTarget = state.selectedScenario.panels[state.currentPanelIndex][state.currentType];
     if (!rawTarget) return;
     const targetWordsFull = rawTarget.split(/\s+/);
-    const normalizedTarget = targetWordsFull.map(w => w.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_~()]/g,""));
-    const input = state.transcript.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_~()]/g,"");
-
+    // Sanitize input but keep spaces for word boundary detection
+    const rawInput = state.transcript.toLowerCase(); 
+    
     if (state.isEasyMode) {
-        let currentTargetWord = normalizedTarget[state.easyModeIndex];
-        if (input.includes(currentTargetWord)) {
+        // 1. Get the current target word and normalize it
+        let targetWord = targetWordsFull[state.easyModeIndex];
+        if (!targetWord) return;
+        const cleanTarget = targetWord.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_~()]/g,"");
+        
+        // 2. Look ONLY at the "Fresh" part of the transcript (after the cursor)
+        const freshInput = rawInput.substring(state.easyModeSearchCursor);
+        
+        // 3. Create a strict pattern: Checks for the word surrounded by boundaries (space, start, end, punctuation)
+        // This prevents "a" matching inside "apple"
+        const escapedTarget = cleanTarget.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(^|\\s|\\p{P})${escapedTarget}($|\\s|\\p{P})`, 'u');
+        
+        const match = freshInput.match(regex);
+        
+        if (match) {
+            // 4. Update the cursor to skip past this matched word so we don't match it again
+            // match.index is relative to freshInput, so we add it to the global cursor
+            state.easyModeSearchCursor += (match.index + match[0].length);
+            
             state.easyModeIndex++;
-            state.transcript = "";
             triggerFrogJump();
             playSound('pop');
             render();
+            
             if (state.easyModeIndex >= targetWordsFull.length) triggerSuccess();
         }
     } else {
+        // Standard mode logic (unchanged)
+        const normalizedTarget = targetWordsFull.map(w => w.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_~()]/g,""));
+        const cleanInput = rawInput.replace(/[.,\/#!$%\^&\*;:{}=\-_~()]/g,"");
         const targetWordsShort = normalizedTarget.filter(w => w.length > 2);
-        const matchedWords = targetWordsShort.filter(word => input.includes(word));
+        const matchedWords = targetWordsShort.filter(word => cleanInput.includes(word));
         
         if (matchedWords.length > state.lastMatchedCount) {
             triggerFrogJump();
@@ -325,7 +347,7 @@ function checkSpeech() {
         }
 
         const accuracy = targetWordsShort.length > 0 ? (matchedWords.length / targetWordsShort.length) : 1;
-        if (accuracy > 0.85 || input.includes(rawTarget.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_~()]/g,""))) triggerSuccess();
+        if (accuracy > 0.85 || cleanInput.includes(rawTarget.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_~()]/g,""))) triggerSuccess();
     }
 }
 
@@ -466,6 +488,8 @@ function startGame() {
     state.isCorrect = false; state.transcript = ""; state.score = 0; state.easyModeIndex = 0; state.lastMatchedCount = 0;
     state.shuffledWords = scramble(state.selectedScenario.panels[0].s); 
     state.isListening = true; 
+    state.easyModeIndex = 0; 
+    state.easyModeSearchCursor = 0;
     startVolumeMonitoring();
     startExamTimer();
     if (state.recognition && !state.isRecognitionActive) { try { state.recognition.start(); } catch(e) {} } 
@@ -474,6 +498,8 @@ function startGame() {
 
 function handleSuccess() {
     state.isCorrect = false; state.transcript = ""; state.easyModeIndex = 0; state.lastMatchedCount = 0;
+    state.easyModeIndex = 0; 
+    state.easyModeSearchCursor = 0;
     const panel = state.selectedScenario.panels[state.currentPanelIndex];
     if (state.currentType === 's') { state.currentType = panel.e ? 'e' : 'ex'; } 
     else if (state.currentType === 'e') { state.currentType = panel.ex ? 'ex' : 's'; if (state.currentType === 's') state.currentPanelIndex++; } 
@@ -501,6 +527,8 @@ function handleSuccess() {
 function resetGame() { 
     if (state.silenceTimer) clearTimeout(state.silenceTimer);
     state.gameState = 'setup'; state.currentPanelIndex = 0; state.currentType = 's'; state.easyModeIndex = 0; state.isListening = false; 
+    state.easyModeIndex = 0; 
+    state.easyModeSearchCursor = 0;
     if (state.recognition) state.recognition.stop(); 
     if (state.timerInterval) clearInterval(state.timerInterval); 
     render(); 
