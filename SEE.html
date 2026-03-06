@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EIKEN Pre-1: Voice Narrator (Exam Mode)</title>
+    <title>EIKEN Pre-1: Voice Narrator (v0.1)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono&display=swap');
@@ -287,7 +287,7 @@ function checkSpeech() {
         const targetWordsShort = normalizedTarget.filter(w => w.length > 2);
         const matchedWords = targetWordsShort.filter(word => input.includes(word));
         const accuracy = targetWordsShort.length > 0 ? (matchedWords.length / targetWordsShort.length) : 1;
-        if (accuracy > 0.60 || input.includes(rawTarget.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_~()]/g,""))) triggerSuccess();
+        if (accuracy > 0.85 || input.includes(rawTarget.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_~()]/g,""))) triggerSuccess();
     }
 }
 
