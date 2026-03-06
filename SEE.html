@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EIKEN Pre-1: Voice Narrator (v0.16)</title>
+    <title>EIKEN Pre-1: Voice Narrator (v0.17)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono&display=swap');
@@ -107,10 +107,10 @@ const SCENARIOS = [
         title: 'Day 2: The Casino Job',
         openingSentence: "One day, a woman was looking for a job in her hometown.",
         panels: [
-            { id: 'd2p1', title: 'The Closing Cafe', s: "She approached a café owner to ask for a job, but he was holding a sign that said the café was closing down.", e: "She noticed several other shops with 'FOR RENT' signs in their windows.", ex: "She felt disappointed because the local economy was struggling.", icon: ICONS.cafe, img: "day2_1.png" },
-            { id: 'd2p2', title: 'Two Weeks Later', s: "While she was reading a newspaper, she saw an advertisement for a new casino that was hiring staff.", e: "She looked hopeful as she wrote down the contact information.", ex: "This was because she decided to apply for the position.", icon: ICONS.news, img: "day2_2.png" },
-            { id: 'd2p3', title: 'Two Months Later', s: "The woman was working at the reception desk of the now-busy casino.", e: "She looked concerned and worried as she watched a customer staring into his empty wallet.", ex: "She realized that some people were spending too much money at the casino.", icon: ICONS.wallet, img: "day2_3.png" },
-            { id: 'd2p4', title: 'Later That Night', s: "She was walking along a dark street from the casino and saw a group of men talking loudly.", e: "She looked nervous as she hurried past the rowdy group.", ex: "She realized that the atmosphere of her neighborhood had changed since the casino opened.", icon: ICONS.night, img: "day2_4.png" }
+            { id: 'd2p1', title: 'The Closing Cafe', s: "She approached a café owner to ask for a job, but he was holding a sign that said the café was closing down.", e: "She noticed several other shops with 'FOR RENT' signs in their windows.", ex: "She felt disappointed because the local economy was struggling.", icon: ICONS.cafe, img: "images/day2_1.png" },
+            { id: 'd2p2', title: 'Two Weeks Later', s: "While she was reading a newspaper, she saw an advertisement for a new casino that was hiring staff.", e: "She looked hopeful as she wrote down the contact information.", ex: "This was because she decided to apply for the position.", icon: ICONS.news, img: "images/day2_2.png" },
+            { id: 'd2p3', title: 'Two Months Later', s: "The woman was working at the reception desk of the now-busy casino.", e: "She looked concerned and worried as she watched a customer staring into his empty wallet.", ex: "She realized that some people were spending too much money at the casino.", icon: ICONS.wallet, img: "images/day2_3.png" },
+            { id: 'd2p4', title: 'Later That Night', s: "She was walking along a dark street from the casino and saw a group of men talking loudly.", e: "She looked nervous as she hurried past the rowdy group.", ex: "She realized that the atmosphere of her neighborhood had changed since the casino opened.", icon: ICONS.night, img: "images/day2_4.png" }
         ]
     },
     {
@@ -118,10 +118,10 @@ const SCENARIOS = [
         title: 'Day 3: Job-Hunting Student',
         openingSentence: "One day, a university student went job-hunting.",
         panels: [
-            { id: 'd3p1', title: 'The Job Fair', s: "He attended a large JOB FAIR where a massive crowd of students had gathered.", e: "He looked surprised and overwhelmed by how many people were there.", ex: "Since there were no seats left, he was forced to stay at the back.", icon: ICONS.news, img: "day3_1.png" },
-            { id: 'd3p2', title: 'A Few Days Later', s: "While sitting in a café, he was writing down company examination dates in his diary.", e: "He looked stressed as he compared the exam dates with his university schedule.", ex: "He realized that several exams overlapped with his classes.", icon: ICONS.cafe, img: "day3_2.png" },
-            { id: 'd3p3', title: 'A Month Later', s: "The student's professor asked one of his classmates why the young man was absent.", ex: "The classmate explained that the student was busy job-hunting lately.", icon: ICONS.office, img: "day3_3.png" },
-            { id: 'd3p4', title: 'Four Months Later', s: "The student was called into the professor's office.", e: "He looked shocked and worried when the professor told him it would be difficult to graduate.", ex: "His frequent absences from class had put his graduation at risk.", icon: ICONS.grad, img: "day3_4.png" }
+            { id: 'd3p1', title: 'The Job Fair', s: "He attended a large JOB FAIR where a massive crowd of students had gathered.", e: "He looked surprised and overwhelmed by how many people were there.", ex: "Since there were no seats left, he was forced to stay at the back.", icon: ICONS.news, img: "images/day3_1.png" },
+            { id: 'd3p2', title: 'A Few Days Later', s: "While sitting in a café, he was writing down company examination dates in his diary.", e: "He looked stressed as he compared the exam dates with his university schedule.", ex: "He realized that several exams overlapped with his classes.", icon: ICONS.cafe, img: "images/day3_2.png" },
+            { id: 'd3p3', title: 'A Month Later', s: "The student's professor asked one of his classmates why the young man was absent.", ex: "The classmate explained that the student was busy job-hunting lately.", icon: ICONS.office, img: "images/day3_3.png" },
+            { id: 'd3p4', title: 'Four Months Later', s: "The student was called into the professor's office.", e: "He looked shocked and worried when the professor told him it would be difficult to graduate.", ex: "His frequent absences from class had put his graduation at risk.", icon: ICONS.grad, img: "images/day3_4.png" }
         ]
     },
     {
@@ -129,10 +129,10 @@ const SCENARIOS = [
         title: 'Day 4: The Teleworking System',
         openingSentence: "One day, a man wearing glasses was going to his company on a crowded rush-hour train.",
         panels: [
-            { id: 'd4p1', title: 'The Crowded Train', s: "The man was looking at his watch while standing among many other passengers.", e: "He looked worried about the time while others appeared uncomfortable.", ex: "This was because the train was packed, making his commute difficult.", icon: ICONS.train, img: "day4_1.png" },
-            { id: 'd4p2', title: 'Later at Work', s: "A notice was posted in his office announcing a new teleworking system.", e: "The man looked pleased as he read the announcement.", ex: "He decided to use the system so he would no longer travel on the train.", icon: ICONS.office, img: "day4_2.png" },
-            { id: 'd4p3', title: 'One Week Later', s: "The man was sitting in front of his computer at home, dressed in casual clothes.", e: "He looked relaxed and happy as he worked.", ex: "Because he was able to eat and drink in the comfort of his own home.", icon: ICONS.home, img: "day4_3.png" },
-            { id: 'd4p4', title: 'One Month Later', s: "The man was still working from home, but his hair had grown long.", e: "He looked somewhat unkempt as he sat in the middle of a messy room.", icon: ICONS.home, img: "day4_4.png" }
+            { id: 'd4p1', title: 'The Crowded Train', s: "The man was looking at his watch while standing among many other passengers.", e: "He looked worried about the time while others appeared uncomfortable.", ex: "This was because the train was packed, making his commute difficult.", icon: ICONS.train, img: "images/day4_1.png" },
+            { id: 'd4p2', title: 'Later at Work', s: "A notice was posted in his office announcing a new teleworking system.", e: "The man looked pleased as he read the announcement.", ex: "He decided to use the system so he would no longer travel on the train.", icon: ICONS.office, img: "images/day4_2.png" },
+            { id: 'd4p3', title: 'One Week Later', s: "The man was sitting in front of his computer at home, dressed in casual clothes.", e: "He looked relaxed and happy as he worked.", ex: "Because he was able to eat and drink in the comfort of his own home.", icon: ICONS.home, img: "images/day4_3.png" },
+            { id: 'd4p4', title: 'One Month Later', s: "The man was still working from home, but his hair had grown long.", e: "He looked somewhat unkempt as he sat in the middle of a messy room.", icon: ICONS.home, img: "images/day4_4.png" }
         ]
     }
 ];
