@@ -355,7 +355,8 @@ function triggerSuccess() {
     if (state.silenceTimer) clearTimeout(state.silenceTimer);
     
     // Stop recognition here to clear the buffer for the next sentence
-    if (state.recognition) state.recognition.stop(); 
+    if (state.silenceTimer) clearTimeout(state.silenceTimer);
+    if (state.recognition) state.recognition.stop();
     
     state.isCorrect = true; state.score += 100; state.isAnimatingScore = true;
     playSound('success'); render();
