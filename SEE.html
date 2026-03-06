@@ -89,10 +89,10 @@ const SCENARIOS = [
         title: 'Day 1: The Farming Experience',
         openingSentence: "One day, a woman was watching a television program.",
         panels: [
-            { id: 'd1p1', title: 'The Television Program', s: "There was a program about a campaign inviting viewers to join a farming experience.", e: "The woman seemed really interested in the program.", ex: "This was because she pictured herself working hard on a farm.", icon: ICONS.tv, img: "day1_1.jpg" },
-            { id: 'd1p2', title: 'A Month Later', s: "The woman went to a farm and stood in a field with other participants.", e: "She and the others listened attentively to a professional farmer.", ex: "He was explaining the correct way to harvest potatoes.", icon: ICONS.farm, img: "day1_2.jpg" },
-            { id: 'd1p3', title: 'An Hour Later', s: "Everyone was digging up potatoes in the field.", e: "They were enjoying themselves despite the hard work.", ex: "The woman remarked that the experience was more fun than she had expected.", icon: ICONS.harvest, img: "day1_3.jpg" },
-            { id: 'd1p4', title: 'The Next Morning', s: "The woman was back at her office at 11:00 am.", e: "She looked exhausted and was struggling to finish her work.", ex: "This was because her body felt the physical toll of the manual labor from the day before.", icon: ICONS.office, img: "day1_4.jpg" }
+            { id: 'd1p1', title: 'The Television Program', s: "There was a program about a campaign inviting viewers to join a farming experience.", e: "The woman seemed really interested in the program.", ex: "This was because she pictured herself working hard on a farm.", icon: ICONS.tv, img: "PXL_20260227_092215628.jpg" },
+            { id: 'd1p2', title: 'A Month Later', s: "The woman went to a farm and stood in a field with other participants.", e: "She and the others listened attentively to a professional farmer.", ex: "He was explaining the correct way to harvest potatoes.", icon: ICONS.farm, img: "PXL_20260227_092222071.jpg" },
+            { id: 'd1p3', title: 'An Hour Later', s: "Everyone was digging up potatoes in the field.", e: "They were enjoying themselves despite the hard work.", ex: "The woman remarked that the experience was more fun than she had expected.", icon: ICONS.harvest, img: "PXL_20260227_092229460.jpg" },
+            { id: 'd1p4', title: 'The Next Morning', s: "The woman was back at her office at 11:00 am.", e: "She looked exhausted and was struggling to finish her work.", ex: "This was because her body felt the physical toll of the manual labor from the day before.", icon: ICONS.office, img: "PXL_20260227_092235066.jpg" }
         ]
     },
     {
@@ -150,15 +150,14 @@ let state = {
     dataArray: null,
     isEasyMode: false,
     easyModeIndex: 0,
-    timeLeft: 120, // 2 minutes for EIKEN Pre-1
+    timeLeft: 120,
     timerInterval: null
 };
 
+// AUDIO MONITORING
 async function startVolumeMonitoring() {
     try {
-        if (!state.audioContext) {
-            state.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        }
+        if (!state.audioContext) { state.audioContext = new (window.AudioContext || window.webkitAudioContext)(); }
         if (state.audioContext.state === 'suspended') await state.audioContext.resume();
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         state.audioStream = stream;
@@ -193,15 +192,9 @@ function startExamTimer() {
     if (state.timerInterval) clearInterval(state.timerInterval);
     state.timeLeft = 120;
     state.timerInterval = setInterval(() => {
-        if (state.gameState !== 'playing') {
-            clearInterval(state.timerInterval);
-            return;
-        }
+        if (state.gameState !== 'playing') { clearInterval(state.timerInterval); return; }
         state.timeLeft--;
-        if (state.timeLeft <= 0) {
-            state.timeLeft = 0;
-            clearInterval(state.timerInterval);
-        }
+        if (state.timeLeft <= 0) { state.timeLeft = 0; clearInterval(state.timerInterval); }
         renderTimerDisplay();
     }, 1000);
 }
@@ -212,11 +205,8 @@ function renderTimerDisplay() {
     const mins = Math.floor(state.timeLeft / 60);
     const secs = state.timeLeft % 60;
     timerEl.innerText = `${mins}:${secs.toString().padStart(2, '0')}`;
-    if (state.timeLeft <= 30) {
-        timerEl.classList.add('timer-warning');
-    } else {
-        timerEl.classList.remove('timer-warning');
-    }
+    if (state.timeLeft <= 30) { timerEl.classList.add('timer-warning'); } 
+    else { timerEl.classList.remove('timer-warning'); }
 }
 
 function playSound(type) {
