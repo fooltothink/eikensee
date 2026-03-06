@@ -138,17 +138,15 @@ let state = {
     audioContext: null,
     score: 0,
     isAnimatingScore: false,
-    // Monitoring state
     volume: 0,
     audioStream: null,
     analyser: null,
     dataArray: null,
-    // Easy Mode state
     isEasyMode: false,
     easyModeIndex: 0
 };
 
-// VOLUME MONITORING LOGIC
+// VOLUME MONITORING
 async function startVolumeMonitoring() {
     try {
         if (!state.audioContext) {
@@ -259,7 +257,7 @@ function checkSpeech() {
         let currentTargetWord = normalizedTarget[state.easyModeIndex];
         if (input.includes(currentTargetWord)) {
             state.easyModeIndex++;
-            state.transcript = ""; // Clear buffer
+            state.transcript = "";
             playSound('pop');
             render();
 
@@ -268,6 +266,7 @@ function checkSpeech() {
             }
         }
     } else {
+        // Lower threshold (40%) to accommodate soft voices
         const targetWordsShort = normalizedTarget.filter(w => w.length > 2);
         const matchedWords = targetWordsShort.filter(word => input.includes(word));
         const accuracy = targetWordsShort.length > 0 ? (matchedWords.length / targetWordsShort.length) : 1;
@@ -329,7 +328,10 @@ function render() {
 
         app.innerHTML = `
             <div class="bg-slate-900 p-6 text-white flex justify-between items-center transition-all ${state.isCorrect ? 'correct-flash' : ''}">
-                <div><h1 class="text-lg font-bold truncate max-w-[200px]">${state.selectedScenario.title}</h1><p class="text-slate-400 text-xs font-medium">${panel.title}</p></div>
+                <div class="flex-1">
+                    <h1 class="text-lg font-bold leading-tight">${state.selectedScenario.title}</h1>
+                    <p class="text-slate-400 text-xs font-medium">${panel.title}</p>
+                </div>
                 <div class="flex flex-col items-end"><div class="text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Score</div><div class="text-2xl font-mono font-bold text-yellow-400 ${state.isAnimatingScore ? 'score-pop' : ''}">${state.score}</div></div>
             </div>
             <div class="p-8">
