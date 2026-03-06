@@ -156,7 +156,7 @@ let state = {
 };
 
 // AUDIO MONITORING
-async function startVolumeMoniotring() {
+async function startVolumeMonitoring() {
     try {
         if (!state.audioContext) { state.audioContext = new (window.AudioContext || window.webkitAudioContext)(); }
         if (state.audioContext.state === 'suspended') await state.audioContext.resume();
